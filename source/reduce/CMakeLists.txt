@@ -79,14 +79,16 @@ add_library(SPIRV-Tools-reduce ${SPIRV_TOOLS_REDUCE_SOURCES})
 
 spvtools_default_compile_options(SPIRV-Tools-reduce)
 target_include_directories(SPIRV-Tools-reduce
-  PUBLIC ${spirv-tools_SOURCE_DIR}/include
-  PUBLIC ${SPIRV_HEADER_INCLUDE_DIR}
-  PRIVATE ${spirv-tools_BINARY_DIR}
+  PUBLIC $<BUILD_INTERFACE:${spirv-tools_SOURCE_DIR}/include>
+  PRIVATE $<BUILD_INTERFACE:${spirv-tools_BINARY_DIR}>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 # The reducer reuses a lot of functionality from the SPIRV-Tools library.
 target_link_libraries(SPIRV-Tools-reduce
   PUBLIC ${SPIRV_TOOLS}
-  PUBLIC SPIRV-Tools-opt)
+  PUBLIC SPIRV-Tools-opt
+  PUBLIC SPIRV::SPIRV-Headers
+  )
 
 set_property(TARGET SPIRV-Tools-reduce PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(SPIRV-Tools-reduce)

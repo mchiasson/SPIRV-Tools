@@ -31,13 +31,13 @@ if(SPIRV_BUILD_COMPRESSION)
 
   spvtools_default_compile_options(SPIRV-Tools-comp)
   target_include_directories(SPIRV-Tools-comp
-    PUBLIC ${spirv-tools_SOURCE_DIR}/include
-    PUBLIC ${SPIRV_HEADER_INCLUDE_DIR}
-    PRIVATE ${spirv-tools_BINARY_DIR}
+    PUBLIC $<BUILD_INTERFACE:${spirv-tools_SOURCE_DIR}/include>
+    PRIVATE $<BUILD_INTERFACE:${spirv-tools_BINARY_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
 
   target_link_libraries(SPIRV-Tools-comp
-    PUBLIC ${SPIRV_TOOLS})
+    PUBLIC ${SPIRV_TOOLS} SPIRV::SPIRV-Headers)
 
   set_property(TARGET SPIRV-Tools-comp PROPERTY FOLDER "SPIRV-Tools libraries")
   spvtools_check_symbol_exports(SPIRV-Tools-comp)

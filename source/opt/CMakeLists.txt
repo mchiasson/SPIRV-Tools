@@ -221,13 +221,13 @@ add_library(SPIRV-Tools-opt ${SPIRV_TOOLS_OPT_SOURCES})
 
 spvtools_default_compile_options(SPIRV-Tools-opt)
 target_include_directories(SPIRV-Tools-opt
-  PUBLIC ${spirv-tools_SOURCE_DIR}/include
-  PUBLIC ${SPIRV_HEADER_INCLUDE_DIR}
-  PRIVATE ${spirv-tools_BINARY_DIR}
+  PUBLIC $<BUILD_INTERFACE:${spirv-tools_SOURCE_DIR}/include>
+  PRIVATE $<BUILD_INTERFACE:${spirv-tools_BINARY_DIR}>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 # We need the assembling and disassembling functionalities in the main library.
 target_link_libraries(SPIRV-Tools-opt
-  PUBLIC ${SPIRV_TOOLS})
+  PUBLIC ${SPIRV_TOOLS} SPIRV::SPIRV-Headers)
 
 set_property(TARGET SPIRV-Tools-opt PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(SPIRV-Tools-opt)

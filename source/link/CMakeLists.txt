@@ -17,13 +17,13 @@ add_library(SPIRV-Tools-link
 
 spvtools_default_compile_options(SPIRV-Tools-link)
 target_include_directories(SPIRV-Tools-link
-  PUBLIC ${spirv-tools_SOURCE_DIR}/include
-  PUBLIC ${SPIRV_HEADER_INCLUDE_DIR}
-  PRIVATE ${spirv-tools_BINARY_DIR}
+  PUBLIC $<BUILD_INTERFACE:${spirv-tools_SOURCE_DIR}/include>
+  PRIVATE $<BUILD_INTERFACE:${spirv-tools_BINARY_DIR}>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 # We need the IR functionnalities from the optimizer
 target_link_libraries(SPIRV-Tools-link
-  PUBLIC SPIRV-Tools-opt)
+  PUBLIC SPIRV-Tools-opt SPIRV::SPIRV-Headers)
 
 set_property(TARGET SPIRV-Tools-link PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(SPIRV-Tools-link)

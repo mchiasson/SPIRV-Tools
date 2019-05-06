@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.10)
 if (POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
 endif()
@@ -24,12 +24,26 @@ if (POLICY CMP0054)
 endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-project(spirv-tools)
+include(cmake/Hunter/HunterGate.cmake)
+HunterGate(
+    URL "https://github.com/ruslo/hunter/archive/v0.23.165.tar.gz"
+    SHA1 "5a73f91df5f6109c0bb1104d0c0ee423f7bece79"
+    LOCAL
+)
+
+project(spirv-tools VERSION 2019.2)
+
+hunter_add_package(SPIRV-Headers)
+find_package(SPIRV-Headers CONFIG REQUIRED)
+set(SPIRV-Headers_SOURCE_DIR ${SPIRV-HEADERS_ROOT})
+
 enable_testing()
 set(SPIRV_TOOLS "SPIRV-Tools")
 
 include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 include(cmake/setup_build.cmake)
+set(SPIRV_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake/)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 11)
@@ -294,4 +308,49 @@ if (ENABLE_SPIRV_TOOLS_INSTALL)
       ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools-shared.pc
     DESTINATION
       ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
+  install(
+    TARGETS
+      spirv-as
+      spirv-cfg
+      spirv-dis
+      spirv-link
+      spirv-opt
+      spirv-reduce
+      spirv-stats
+      spirv-val
+      SPIRV-Tools
+      SPIRV-Tools-link
+      SPIRV-Tools-opt
+      SPIRV-Tools-reduce
+      SPIRV-Tools-shared
+    EXPORT ${PROJECT_NAME}Targets
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+  install(
+    EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE SPIRV::
+    DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
+  )
+
+  write_basic_package_version_file(
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION ${PACKAGE_VERSION}
+    COMPATIBILITY AnyNewerVersion
+  )
+
+  configure_package_config_file(
+    ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake.in
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    INSTALL_DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
+  )
+
+  install(
+    FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
+  )
+
 endif()
