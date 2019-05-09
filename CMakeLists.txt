@@ -342,7 +342,7 @@ if (ENABLE_SPIRV_TOOLS_INSTALL)
   )
 
   configure_package_config_file(
-    ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake.in
+    ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
     ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
     INSTALL_DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
   )
