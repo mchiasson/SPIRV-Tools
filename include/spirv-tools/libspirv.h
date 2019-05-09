@@ -427,6 +427,8 @@ typedef enum {
   SPV_ENV_UNIVERSAL_1_3,  // SPIR-V 1.3 latest revision, no other restrictions.
   SPV_ENV_VULKAN_1_1,     // Vulkan 1.1 latest revision.
   SPV_ENV_WEBGPU_0,       // Work in progress WebGPU 1.0.
+  SPV_ENV_UNIVERSAL_1_4,  // SPIR-V 1.4 latest revision, no other restrictions.
+  SPV_ENV_VULKAN_1_1_SPIRV_1_4,  // Vulkan 1.1 with SPIR-V 1.4 binary.
 } spv_target_env;
 
 // SPIR-V Validator can be parameterized with the following Universal Limits.
@@ -500,6 +502,11 @@ SPIRV_TOOLS_EXPORT void spvValidatorOptionsSetRelaxLogicalPointer(
 // This is enabled by default when targeting Vulkan 1.1 or later.
 // Relaxed layout is more permissive than the default rules in Vulkan 1.0.
 SPIRV_TOOLS_EXPORT void spvValidatorOptionsSetRelaxBlockLayout(
+    spv_validator_options options, bool val);
+
+// Records whether the validator should use standard block layout rules for
+// uniform blocks.
+SPIRV_TOOLS_EXPORT void spvValidatorOptionsSetUniformBufferStandardLayout(
     spv_validator_options options, bool val);
 
 // Records whether the validator should use "scalar" block layout rules.
