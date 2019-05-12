@@ -310,26 +310,6 @@ if (ENABLE_SPIRV_TOOLS_INSTALL)
       ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
   install(
-    TARGETS
-      spirv-as
-      spirv-cfg
-      spirv-dis
-      spirv-link
-      spirv-opt
-      spirv-reduce
-      spirv-stats
-      spirv-val
-      SPIRV-Tools
-      SPIRV-Tools-link
-      SPIRV-Tools-opt
-      SPIRV-Tools-reduce
-      SPIRV-Tools-shared
-    EXPORT ${PROJECT_NAME}Targets
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-  install(
     EXPORT ${PROJECT_NAME}Targets
     NAMESPACE SPIRV::
     DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
