@@ -37,7 +37,7 @@ if(SPIRV_BUILD_COMPRESSION)
   )
 
   target_link_libraries(SPIRV-Tools-comp
-    PUBLIC ${SPIRV_TOOLS} SPIRV::SPIRV-Headers)
+    PUBLIC ${SPIRV_TOOLS} SPIRV-Headers::SPIRV-Headers)
 
   set_property(TARGET SPIRV-Tools-comp PROPERTY FOLDER "SPIRV-Tools libraries")
   spvtools_check_symbol_exports(SPIRV-Tools-comp)

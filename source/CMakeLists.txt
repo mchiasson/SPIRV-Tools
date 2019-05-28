@@ -341,7 +341,7 @@ target_include_directories(${SPIRV_TOOLS}
   PRIVATE $<BUILD_INTERFACE:${spirv-tools_BINARY_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
-target_link_libraries(${SPIRV_TOOLS} PUBLIC SPIRV::SPIRV-Headers)
+target_link_libraries(${SPIRV_TOOLS} PUBLIC SPIRV-Headers::SPIRV-Headers)
 set_property(TARGET ${SPIRV_TOOLS} PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(${SPIRV_TOOLS})
 add_dependencies( ${SPIRV_TOOLS} core_tables enum_string_mapping extinst_tables )
@@ -353,7 +353,7 @@ target_include_directories(${SPIRV_TOOLS}-shared
   PRIVATE $<BUILD_INTERFACE:${spirv-tools_BINARY_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
-target_link_libraries(${SPIRV_TOOLS}-shared PUBLIC SPIRV::SPIRV-Headers)
+target_link_libraries(${SPIRV_TOOLS}-shared PUBLIC SPIRV-Headers::SPIRV-Headers)
 set_target_properties(${SPIRV_TOOLS}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)
 set_property(TARGET ${SPIRV_TOOLS}-shared PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(${SPIRV_TOOLS}-shared)

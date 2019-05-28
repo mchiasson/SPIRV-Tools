@@ -62,8 +62,8 @@ if (NOT ${SPIRV_SKIP_EXECUTABLES})
                     LIBS ${SPIRV_TOOLS})
   target_include_directories(spirv-cfg PRIVATE ${spirv-tools_SOURCE_DIR})
   target_include_directories(spirv-stats PRIVATE ${spirv-tools_SOURCE_DIR})
-  target_link_libraries(spirv-cfg PUBLIC SPIRV::SPIRV-Headers)
-  target_link_libraries(spirv-stats PUBLIC SPIRV::SPIRV-Headers)
+  target_link_libraries(spirv-cfg PUBLIC SPIRV-Headers::SPIRV-Headers)
+  target_link_libraries(spirv-stats PUBLIC SPIRV-Headers::SPIRV-Headers)
 
   set(SPIRV_INSTALL_TARGETS spirv-as spirv-dis spirv-val spirv-opt spirv-stats
                             spirv-cfg spirv-link)
@@ -78,7 +78,7 @@ if (NOT ${SPIRV_SKIP_EXECUTABLES})
                            comp/markv_model_shader.cpp
                       LIBS SPIRV-Tools-comp SPIRV-Tools-opt ${SPIRV_TOOLS})
     target_include_directories(spirv-markv PRIVATE ${spirv-tools_SOURCE_DIR})
-    target_link_libraries(spirv-markv PUBLIC SPIRV::SPIRV-Headers)
+    target_link_libraries(spirv-markv PUBLIC SPIRV-Headers::SPIRV-Headers)
     set(SPIRV_INSTALL_TARGETS ${SPIRV_INSTALL_TARGETS} spirv-markv)
   endif(SPIRV_BUILD_COMPRESSION)
 

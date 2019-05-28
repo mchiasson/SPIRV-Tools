@@ -227,7 +227,7 @@ target_include_directories(SPIRV-Tools-opt
 )
 # We need the assembling and disassembling functionalities in the main library.
 target_link_libraries(SPIRV-Tools-opt
-  PUBLIC ${SPIRV_TOOLS} SPIRV::SPIRV-Headers)
+  PUBLIC ${SPIRV_TOOLS} SPIRV-Headers::SPIRV-Headers)
 
 set_property(TARGET SPIRV-Tools-opt PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(SPIRV-Tools-opt)

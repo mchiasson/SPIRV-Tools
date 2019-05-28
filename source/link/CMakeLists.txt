@@ -23,7 +23,7 @@ target_include_directories(SPIRV-Tools-link
 )
 # We need the IR functionnalities from the optimizer
 target_link_libraries(SPIRV-Tools-link
-  PUBLIC SPIRV-Tools-opt SPIRV::SPIRV-Headers)
+  PUBLIC SPIRV-Tools-opt SPIRV-Headers::SPIRV-Headers)
 
 set_property(TARGET SPIRV-Tools-link PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(SPIRV-Tools-link)

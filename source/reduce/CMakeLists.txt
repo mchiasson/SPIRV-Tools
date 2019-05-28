@@ -87,7 +87,7 @@ target_include_directories(SPIRV-Tools-reduce
 target_link_libraries(SPIRV-Tools-reduce
   PUBLIC ${SPIRV_TOOLS}
   PUBLIC SPIRV-Tools-opt
-  PUBLIC SPIRV::SPIRV-Headers
+  PUBLIC SPIRV-Headers::SPIRV-Headers
   )
 
 set_property(TARGET SPIRV-Tools-reduce PROPERTY FOLDER "SPIRV-Tools libraries")
