@@ -2,6 +2,7 @@
 .ycm_extra_conf.py*
 *.pyc
 compile_commands.json
+CMakeLists.txt.user
 /build/
 /buildtools/
 /external/googletest
