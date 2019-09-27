@@ -58,7 +58,6 @@ function(add_spvtools_unittest)
       target_compile_options(${target} PRIVATE /DGTEST_HAS_COMBINE=1)
     endif()
     target_include_directories(${target} PRIVATE
-      ${SPIRV_HEADER_INCLUDE_DIR}
       ${spirv-tools_SOURCE_DIR}
       ${spirv-tools_SOURCE_DIR}/include
       ${spirv-tools_SOURCE_DIR}/test
@@ -70,7 +69,7 @@ function(add_spvtools_unittest)
       # If using Effcee for testing, then add its include directory.
       target_include_directories(${target} PRIVATE ${effcee_SOURCE_DIR})
     endif()
-    target_link_libraries(${target} PRIVATE ${ARG_LIBS})
+    target_link_libraries(${target} PRIVATE ${ARG_LIBS} PUBLIC SPIRV-Headers::SPIRV-Headers)
     if (TARGET effcee)
       target_link_libraries(${target} PRIVATE effcee)
     endif()

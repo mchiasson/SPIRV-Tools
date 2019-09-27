@@ -118,13 +118,13 @@ if(SPIRV_BUILD_FUZZER)
   endif()
 
   target_include_directories(SPIRV-Tools-fuzz
-        PUBLIC ${spirv-tools_SOURCE_DIR}/include
-        PUBLIC ${SPIRV_HEADER_INCLUDE_DIR}
+        PUBLIC $<BUILD_INTERFACE:${spirv-tools_SOURCE_DIR}/include>
         PRIVATE ${spirv-tools_BINARY_DIR}
         PRIVATE ${CMAKE_BINARY_DIR})
 
   # The fuzzer reuses a lot of functionality from the SPIRV-Tools library.
   target_link_libraries(SPIRV-Tools-fuzz
+        PUBLIC SPIRV-Headers::SPIRV-Headers
         PUBLIC ${SPIRV_TOOLS}
         PUBLIC SPIRV-Tools-opt
         PUBLIC protobuf::libprotobuf)
@@ -134,6 +134,7 @@ if(SPIRV_BUILD_FUZZER)
 
   if(ENABLE_SPIRV_TOOLS_INSTALL)
       install(TARGETS SPIRV-Tools-fuzz
+            EXPORT SPIRV-ToolsTargets
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
