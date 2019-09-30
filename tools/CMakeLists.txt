@@ -53,8 +53,8 @@ if (NOT ${SPIRV_SKIP_EXECUTABLES})
                          cfg/bin_to_dot.h
                          cfg/bin_to_dot.cpp
                     LIBS ${SPIRV_TOOLS})
-  target_include_directories(spirv-cfg PRIVATE ${spirv-tools_SOURCE_DIR}
-                                               ${SPIRV_HEADER_INCLUDE_DIR})
+  target_include_directories(spirv-cfg PRIVATE ${spirv-tools_SOURCE_DIR})
+  target_link_libraries(spirv-cfg PUBLIC SPIRV-Headers::SPIRV-Headers)
   set(SPIRV_INSTALL_TARGETS spirv-as spirv-dis spirv-val spirv-opt
                             spirv-cfg spirv-link)
   if(NOT DEFINED IOS_PLATFORM)
@@ -68,6 +68,7 @@ if (NOT ${SPIRV_SKIP_EXECUTABLES})
 
   if(ENABLE_SPIRV_TOOLS_INSTALL)
     install(TARGETS ${SPIRV_INSTALL_TARGETS}
+      EXPORT SPIRV-ToolsTargets
       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
       LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})

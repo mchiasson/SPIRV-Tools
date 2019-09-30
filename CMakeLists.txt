@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.2)
 if (POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
 endif()
@@ -24,15 +24,27 @@ if (POLICY CMP0054)
 endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-project(spirv-tools)
+include(cmake/HunterGate.cmake)
+HunterGate(
+    URL "https://github.com/cpp-pm/hunter/archive/v0.23.217.tar.gz"
+    SHA1 "4b36c0f8ffc8f3b5718d5e24629fb40c56c99b13"
+)
+
+project(spirv-tools VERSION 2019.4)
+
+hunter_add_package(SPIRV-Headers)
+find_package(SPIRV-Headers CONFIG REQUIRED)
+set(SPIRV-Headers_SOURCE_DIR ${SPIRV-HEADERS_ROOT})
+
 enable_testing()
 set(SPIRV_TOOLS "SPIRV-Tools")
 
 include(GNUInstallDirs)
 include(cmake/setup_build.cmake)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_CXX_STANDARD 11)
+# These should be set by the toolchain.
+#set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+#set(CMAKE_CXX_STANDARD 11)
 
 option(SPIRV_ALLOW_TIMERS "Allow timers via clock_gettime on supported platforms" ON)
 
@@ -304,10 +316,37 @@ add_custom_target(spirv-tools-shared-pkg-config ALL
 
 # Install pkg-config file
 if (ENABLE_SPIRV_TOOLS_INSTALL)
+
+  include(CMakePackageConfigHelpers)
+  set(SPIRV_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/SPIRV-Tools)
+
   install(
     FILES
       ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools.pc
       ${CMAKE_CURRENT_BINARY_DIR}/SPIRV-Tools-shared.pc
     DESTINATION
       ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
+  install(
+    EXPORT SPIRV-ToolsTargets
+    NAMESPACE SPIRV-Tools::
+    DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
+  )
+
+  write_basic_package_version_file(
+    ${PROJECT_BINARY_DIR}/SPIRV-ToolsConfigVersion.cmake
+    VERSION ${PACKAGE_VERSION}
+    COMPATIBILITY AnyNewerVersion
+  )
+
+  configure_package_config_file(
+    ${PROJECT_SOURCE_DIR}/cmake/SPIRV-ToolsConfig.cmake.in
+    ${PROJECT_BINARY_DIR}/SPIRV-ToolsConfig.cmake
+    INSTALL_DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
+  )
+
+  install(FILES ${PROJECT_BINARY_DIR}/SPIRV-ToolsConfigVersion.cmake
+                ${PROJECT_BINARY_DIR}/SPIRV-ToolsConfig.cmake
+    DESTINATION ${SPIRV_CONFIG_INSTALL_DIR}
+  )
 endif()
